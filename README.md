@@ -1,13 +1,13 @@
 # NotificationLibrary
 
 ## Overview
-The "Custom WPF Notifications" project aims to provide a flexible and user-friendly notification system for WPF (Windows Presentation Foundation) applications. This system leverages the NotificationLibrary, a specialized class named NotificationObject, to create and display custom notifications within your WPF application.
+The "Custom WPF Notifications" project aims to provide a flexible and user-friendly notification system for WPF (Windows Presentation Foundation) applications. This system leverages the NotificationLibrary, a specialized class named Notification, to create and display custom notifications within your WPF application.
 
 ![Example from demo app](resources/screen.png)
 
 ## Key Features:
 
-Customizable Notifications: The heart of the system is the NotificationObject class, which allows you to create notifications with the following customizable properties:
+Customizable Notifications: The heart of the system is the Notification class, which allows you to create notifications with the following customizable properties:
 
 - __Title:__ Set a title for your notification.
 - __Message:__ Provide a detailed message to convey information.
