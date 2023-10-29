@@ -17,12 +17,6 @@
         Background="Transparent"
         BorderBrush="Transparent"
         VerticalContentAlignment="Bottom"
-        VirtualizingStackPanel.ScrollUnit="Pixel"
-        VirtualizingStackPanel.VirtualizationMode="Recycling"
-        VirtualizingStackPanel.IsVirtualizing="False"
-        VirtualizingStackPanel.CacheLength="0"                    
-        VirtualizingStackPanel.CacheLengthUnit="Item"
-        VirtualizingStackPanel.IsVirtualizingWhenGrouping="False"
         HorizontalContentAlignment="Stretch"
         HorizontalAlignment="Stretch"
         ScrollViewer.CanContentScroll="False"
@@ -67,15 +61,15 @@
 
                             <Image
                                 Grid.Column="0"
-                                Width="26"
-                                Height="26"
+                                Width="24"
+                                Height="24"
                                 HorizontalAlignment="Left"
-                                Source="pack://application:,,,/NotificationLibrary;component/images/icon.png">
+                                Source="{Binding applicationIcon}">
                             </Image>
 
                             <TextBlock
                                 Grid.Column="1"
-                                Text="Easymeeting"
+                                Text="{Binding applicationName}"
                                 Foreground="White"
                                 FontSize="14"
                                 TextAlignment="Center"
@@ -96,14 +90,14 @@
 
                         <StackPanel
                             Orientation="Horizontal"
-                            Margin="0, 5, 0, 0">
+                            Margin="0, 8, 0, 0">
 
                             <Border 
                                 VerticalAlignment="Center"
                                 Grid.Row="0"
                                 CornerRadius="29" 
                                 Margin="10, 8, 10, 8"
-                                Background="PaleVioletRed"
+                                Background="{Binding solidColor}"
                                 Width="55"
                                 Height="55">    
 

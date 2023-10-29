@@ -8,8 +8,27 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
 
-        <Button Click="Button_Click"
-                Width="100" Height="100"></Button>
+        <Border
+            Name="border"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Padding="18"
+            CornerRadius="30"
+            Background="DarkViolet"
+            MouseLeftButtonDown="Border_MouseLeftButtonDown"
+            MouseLeftButtonUp="Border_MouseLeftButtonUp">
+
+            <Border.Effect>
+                <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="5" Opacity="0.5"/>
+            </Border.Effect>
+
+            <TextBlock
+                FontWeight="Medium"
+                Text="Create notification"
+                Foreground="White"
+                />
+
+        </Border>
         
     </Grid>
 </Window>

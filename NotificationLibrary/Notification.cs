@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace NotificationLibrary
 {
@@ -19,10 +20,10 @@ namespace NotificationLibrary
         /// <param name="description"></param>
         /// <param name="initials"></param>
         /// <param name="color"></param>
-        public static void InsertNotification(string title, string message, string initials, string dbid, Color color)
+        public static void InsertNotification(BitmapImage applicationIcon, string applicationName, string title, string message, string initials, string dbid, Color color)
         {
             var manager     = NotificationManager.getInstance();
-            var n_object    = new NotificationObject(title, message, initials, dbid, color);
+            var n_object    = new NotificationObject(applicationIcon, applicationName, title, message, initials, dbid, color);
 
             manager.addNotificationObject(n_object);
         }

@@ -7,15 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="images\chat.png" />
     <None Remove="images\close.png" />
-    <None Remove="images\icon.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="images\close.png">
+    <Resource Include="images\chat.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="images\icon.png">
+    <Resource Include="images\close.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
