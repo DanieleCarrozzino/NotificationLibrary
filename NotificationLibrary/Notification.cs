@@ -28,6 +28,10 @@ namespace NotificationLibrary
             manager.addNotificationObject(n_object);
         }
 
+        /// <summary>
+        /// Define the callback for the click event
+        /// </summary>
+        /// <param name="Callback"></param>
         public static void SetCallBack(Action<string> Callback)
         {
             var manager = NotificationManager.getInstance();
