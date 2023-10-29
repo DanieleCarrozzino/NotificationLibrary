@@ -57,7 +57,7 @@ namespace NotificationLibrary
 
             // Position the window at the bottom right corner
             Left = screenWidth - width - MARGIN;
-            Top  = screenHeight - (height * notificationManager.notificationObjects.Count) - MARGIN;
+            Top  = screenHeight - ((height + 4) * notificationManager.notificationObjects.Count) - MARGIN;
 
             startAnimation((Border)sender);
             removeNotification((Border)sender);
@@ -114,7 +114,7 @@ namespace NotificationLibrary
                 {
                     notificationManager.notificationObjects
                         .RemoveAt(0);
-                    Top += border.ActualHeight;
+                    Top += border.ActualHeight + 4;
                 }
                 notificationManager.closeIfEmpty();
 
@@ -128,7 +128,7 @@ namespace NotificationLibrary
                 if (n_object.tag.Equals(((Border)sender).Tag))
                 {
                     notificationManager.notificationObjects.Remove(n_object);
-                    Top += n_object.Height;
+                    Top += n_object.Height + 4;
                     break;
                 }
             }
