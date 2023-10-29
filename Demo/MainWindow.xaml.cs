@@ -23,6 +23,16 @@ namespace Demo
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        List<(string, string, string, string, Color)> list = new List<(string, string, string, string, Color)>()
+        {
+            ("Marco Lombardo", "ML", "Hi luke, how are you?", "1", Colors.DeepPink),
+            ("James Smith", "JS", "Can we schedule a meeting?", "2", Colors.BlueViolet),
+            ("Fabio Lostrano", "FL", "That's perfect for me!", "3", Colors.Orange),
+            ("Livia Larina", "LL", "So do I", "4", Colors.ForestGreen),
+        };
+        int index = 0;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -33,32 +43,27 @@ namespace Demo
             Trace.WriteLine(dbid);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Notification.SetCallBack(Callback);
-
-            BitmapImage bitmapImage = new BitmapImage();
-            bitmapImage.BeginInit();
-            bitmapImage.UriSource = new Uri("pack://application:,,,/NotificationLibrary;component/images/chat.png", UriKind.Absolute);
-            bitmapImage.Freeze();
-            bitmapImage.EndInit();
-
-            Notification.InsertNotification(bitmapImage, "Application", "Daniele Carrozzino", "Hi luke, how are you?", "DC", "1234", Colors.MediumVioletRed);
-        }
-
         private void Border_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             border_effect(true);
 
             Notification.SetCallBack(Callback);
 
+
+            var item = list[index % list.Count];
+            index++;
+            Notification.InsertNotification(getIcon(), "Application", item.Item1, item.Item3, item.Item2, item.Item4, item.Item5);
+        }
+
+        private BitmapImage getIcon()
+        {
             BitmapImage bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
             bitmapImage.UriSource = new Uri("pack://application:,,,/NotificationLibrary;component/images/chat.png", UriKind.Absolute);
             bitmapImage.EndInit();
             bitmapImage.Freeze();
 
-            Notification.InsertNotification(bitmapImage, "Application", "Daniele Carrozzino", "Hi luke, how are you?", "DC", "1234", Colors.MediumVioletRed);
+            return bitmapImage;
         }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
