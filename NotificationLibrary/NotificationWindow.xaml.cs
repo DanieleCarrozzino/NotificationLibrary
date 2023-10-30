@@ -13,6 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xml.Linq;
 
 namespace NotificationLibrary
 {
@@ -125,7 +126,7 @@ namespace NotificationLibrary
         {
             foreach(var n_object in notificationManager.notificationObjects)
             {
-                if (n_object.tag.Equals(((Border)sender).Tag))
+                if (n_object.tag.Equals(((Image)sender).Tag))
                 {
                     notificationManager.notificationObjects.Remove(n_object);
                     Top += n_object.Height + 4;
@@ -144,7 +145,10 @@ namespace NotificationLibrary
         {
             // Manage the click over the notification
             var item = listView.SelectedItem;
+            if (item == null) return;
             notificationManager.EventClick((item as NotificationObject).dbid);
+            notificationManager.notificationObjects.Remove((item as NotificationObject));
+            Top += (item as NotificationObject).Height + 4;
             e.Handled = true;
         }
     }
