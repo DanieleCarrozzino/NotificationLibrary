@@ -65,7 +65,7 @@
                     Loaded="border_Loaded">
 
                     <Border.RenderTransform>
-                        <TranslateTransform X="0"/>
+                        <TranslateTransform X="30"/>
                     </Border.RenderTransform>
 
                     <StackPanel Orientation="Vertical">
@@ -82,8 +82,8 @@
 
                             <Image
                                 Grid.Column="0"
-                                Width="24"
-                                Height="24"
+                                Width="22"
+                                Height="22"
                                 HorizontalAlignment="Left"
                                 Source="{Binding applicationIcon}">
                             </Image>
@@ -92,15 +92,15 @@
                                 Grid.Column="1"
                                 Text="{Binding applicationName}"
                                 Foreground="White"
-                                FontSize="14"
+                                FontSize="13"
                                 TextAlignment="Center"
                                 Margin="10, 2, 0, 0"
                                 />      
 
                             <Image
                                 Tag="{Binding tag}"
-                                Width="14"
-                                Height="14"
+                                Width="12"
+                                Height="12"
                                 Grid.Column="2"
                                 MouseLeftButtonUp="Image_MouseLeftButtonUp"
                                 HorizontalAlignment="Right"
@@ -120,14 +120,14 @@
                                 CornerRadius="29" 
                                 Margin="10, 8, 10, 8"
                                 Background="{Binding solidColor}"
-                                Width="55"
-                                Height="55">    
+                                Width="40"
+                                Height="40">    
 
                                 <TextBlock
                                     Text="{Binding initials}"
                                     Foreground="White"
-                                    FontSize="22"
-                                    Width="55"
+                                    FontSize="15"
+                                    Width="40"
                                     FontWeight="Bold"
                                     TextAlignment="Center"
                                     VerticalAlignment="Center"
@@ -143,8 +143,8 @@
                                 <TextBlock
                                     Text="{Binding title}"
                                     Foreground="White"
-                                    FontSize="17"
-                                    Width="350"
+                                    FontSize="14"
+                                    Width="270"
                                     TextWrapping="Wrap"
                                     FontWeight="Medium"
                                     Margin="10, 10, 10, 0"
@@ -153,9 +153,9 @@
                                 <TextBlock
                                     Text="{Binding message}"
                                     Foreground="#e1e1e1"
-                                    FontSize="17"
+                                    FontSize="13"
                                     TextAlignment="Left"
-                                    Width="350"
+                                    Width="270"
                                     MaxHeight="95"
                                     TextWrapping="Wrap"
                                     TextTrimming="CharacterEllipsis"
