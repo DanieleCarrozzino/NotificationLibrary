@@ -25,6 +25,7 @@ namespace NotificationLibrary
         NotificationManager notificationManager = NotificationManager.getInstance();
 
         const int MARGIN = 20;
+        const int DURATION = 6500;
 
         double screenWidth;
         double screenHeight;
@@ -95,7 +96,7 @@ namespace NotificationLibrary
             DoubleAnimation opacityAnimation = new DoubleAnimation
             {
                 To = 0,
-                Duration = TimeSpan.FromMilliseconds(100),
+                Duration = TimeSpan.FromMilliseconds(240),
             };
 
             // Apply the animations to your elements
@@ -104,11 +105,11 @@ namespace NotificationLibrary
 
         async private void removeNotification(Border border)
         {
-            await Task.Delay(5000);
+            await Task.Delay(DURATION);
             await this.Dispatcher.InvokeAsync(async () =>
             {
                 closeAnimation(border);
-                await Task.Delay(90);
+                await Task.Delay(250);
 
                 // remove item from the listview
                 if (notificationManager.notificationObjects.First().tag.Equals(border.Tag))
