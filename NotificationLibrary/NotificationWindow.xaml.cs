@@ -149,6 +149,9 @@ namespace NotificationLibrary
             if (item == null) return;
             notificationManager.EventClick((item as NotificationObject).dbid);
             notificationManager.notificationObjects.Remove((item as NotificationObject));
+
+            notificationManager.closeIfEmpty();
+
             Top += (item as NotificationObject).Height + 4;
             e.Handled = true;
         }
