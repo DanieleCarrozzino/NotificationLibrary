@@ -34,12 +34,19 @@ namespace NotificationLibrary
         {
             InitializeComponent();
 
+            Closed += NotificationWindow_Closed;
+
             listView.ItemsSource = notificationManager.notificationObjects;
 
             // Get the working area of the primary screen
             Rect workArea = SystemParameters.WorkArea;
             screenWidth  = workArea.Width;
             screenHeight = workArea.Height;
+        }
+
+        private void NotificationWindow_Closed(object? sender, EventArgs e)
+        {
+            notificationManager.clearWindow();
         }
 
         private void border_Loaded(object sender, RoutedEventArgs e)

@@ -37,11 +37,15 @@ namespace NotificationLibrary
 
         public void closeIfEmpty()
         {
-            if (notificationObjects.Count == 0)
+            if (notificationObjects.Count == 0 && n_window != null)
             {
                 n_window.Close();
-                n_window = null;
             }
+        }
+
+        public void clearWindow()
+        {
+            n_window = null;
         }
 
         public void EventClick(string dbid)
