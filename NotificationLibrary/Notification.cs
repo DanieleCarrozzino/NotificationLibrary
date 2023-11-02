@@ -29,6 +29,24 @@ namespace NotificationLibrary
         }
 
         /// <summary>
+        /// Create and show  a notification with ana avatar
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="description"></param>
+        /// <param name="initials"></param>
+        /// <param name="color"></param>
+        public static void InsertNotificationWithAvatar(
+            BitmapImage applicationIcon, string applicationName, 
+            BitmapImage avatar,
+            string title, string message, string dbid)
+        {
+            var manager = NotificationManager.getInstance();
+            var n_object = new NotificationObject(applicationIcon, applicationName, avatar, title, message, dbid);
+
+            manager.addNotificationObject(n_object);
+        }
+
+        /// <summary>
         /// Define the callback for the click event
         /// </summary>
         /// <param name="Callback"></param>

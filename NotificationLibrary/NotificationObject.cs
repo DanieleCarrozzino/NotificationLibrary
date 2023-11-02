@@ -21,6 +21,8 @@ namespace NotificationLibrary
         public string tag { get; set; }
         public double Height { get; set; }
         public BitmapImage applicationIcon { get; set; }
+        public BitmapImage avatar { get; set; }
+        public bool hasAvatar { get; set; }
         public LinearGradientBrush solidColor {
             get
             {
@@ -45,14 +47,48 @@ namespace NotificationLibrary
             return Color.FromRgb(r, g, b);
         }
 
+        public Visibility initialsVisibility
+        {
+            get
+            {
+                if(hasAvatar) return Visibility.Collapsed;
+                else return Visibility.Visible;
+            }
+        }
+
+        public Visibility avatarVisibility
+        {
+            get
+            {
+                if (!hasAvatar) return Visibility.Collapsed;
+                else return Visibility.Visible;
+            }
+        }
+
         public NotificationObject(BitmapImage applicationIcon, string applicationName, string title, string message, string initials, string dbid, Color color)
         {
+            this.hasAvatar          = false;
             this.applicationIcon    = applicationIcon;
             this.applicationName    = applicationName;
+            this.avatar             = null;
             this.title              = title;
             this.message            = message;
             this.initials           = initials;
             this.color              = color;
+            this.dbid               = dbid;
+            this.tag                = this.GetHashCode().ToString();
+        }
+
+        public NotificationObject(BitmapImage applicationIcon, string applicationName, BitmapImage avatar, string title, string message, string dbid)
+        {
+            this.hasAvatar          = true;
+            this.applicationIcon    = applicationIcon;
+            this.applicationName    = applicationName;
+            this.avatar             = avatar;
+            this.title              = title;
+            this.message            = message;
+            this.initials           = "";
+            this.color              = Colors.Red;
             this.dbid               = dbid;
             this.tag                = this.GetHashCode().ToString();
         }

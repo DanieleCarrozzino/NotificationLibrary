@@ -49,6 +49,13 @@ namespace Demo
 
             Notification.SetCallBack(Callback);
 
+            if(index % 3 == 0)
+            {
+                index++;
+                Notification.InsertNotificationWithAvatar(getIcon(), "Application", getIcon(), "titolo", "Message", "dbid");
+                return;
+            }
+
 
             var item = list[index % list.Count];
             index++;

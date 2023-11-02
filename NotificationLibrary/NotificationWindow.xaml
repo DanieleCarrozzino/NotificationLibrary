@@ -119,9 +119,10 @@
                                 Grid.Row="0"
                                 CornerRadius="29" 
                                 Margin="10, 8, 10, 8"
-                                Background="{Binding solidColor}"
                                 Width="40"
-                                Height="40">    
+                                Height="40"
+                                Background="{Binding solidColor}"
+                                Visibility="{Binding initialsVisibility}">
 
                                 <TextBlock
                                     Text="{Binding initials}"
@@ -133,6 +134,21 @@
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
                             />
+
+                            </Border>
+
+                            <Border 
+                                VerticalAlignment="Center"
+                                Grid.Row="0"
+                                CornerRadius="29" 
+                                Margin="10, 8, 10, 8"
+                                Width="40"
+                                Height="40"
+                                Visibility="{Binding avatarVisibility}">
+
+                                <Border.Background>
+                                    <ImageBrush Stretch="Fill" ImageSource="{Binding avatar}"></ImageBrush>
+                                </Border.Background>
 
                             </Border>
 
