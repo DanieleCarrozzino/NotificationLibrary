@@ -32,6 +32,7 @@ namespace NotificationLibrary
 
         public NotificationWindow()
         {
+            ShowInTaskbar = false;
             InitializeComponent();
 
             Closed += NotificationWindow_Closed;
