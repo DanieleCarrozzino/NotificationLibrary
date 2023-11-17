@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml.Linq;
@@ -67,7 +68,7 @@ namespace NotificationLibrary
 
             // Position the window at the bottom right corner
             Left = screenWidth - width - MARGIN;
-            Top  = screenHeight - ((height + 4) * notificationManager.notificationObjects.Count) - MARGIN;
+            resetTopHeight();
 
             startAnimation((Border)sender);
             removeNotification((Border)sender);
@@ -129,6 +130,14 @@ namespace NotificationLibrary
                 notificationManager.closeIfEmpty();
 
             });
+        }
+
+        public void resetTopHeight()
+        {
+            double height = 0;
+            foreach (var item in notificationManager.notificationObjects)
+                height += item.Height + 4;
+            Top = screenHeight - (height) - MARGIN;
         }
 
         private void Image_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

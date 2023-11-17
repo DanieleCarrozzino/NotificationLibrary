@@ -32,7 +32,13 @@ namespace NotificationLibrary
             n_window ??= new NotificationWindow();
             if (notificationObjects.Count == 0) n_window.Show();
 
-            notificationObjects.Add(n_object);
+            if(notificationObjects.Count > 5)
+            {
+                notificationObjects.RemoveAt(0);
+            }
+
+            // reset the top inside the loaded method
+            notificationObjects.Add(n_object);            
         }
 
         public void closeIfEmpty()

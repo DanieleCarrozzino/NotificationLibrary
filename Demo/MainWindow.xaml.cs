@@ -26,9 +26,9 @@ namespace Demo
 
         List<(string, string, string, string, Color)> list = new List<(string, string, string, string, Color)>()
         {
-            ("Marco Lombardo", "ML", "Hi luke, how are you?", "1", Colors.DeepPink),
+            ("Marco Lombardo", "ML", "Hi lukeòlw ijòl wjgjwò jòlkd fjòlk jwdòlkj òlwjd pòogijw òlkj gòldjf poiwj òlkj òwdfijòiw jòlj wdòlfk jòlw jfòiw jòoij òwl dfjòowi jòlkb gjdòlwj", "1", Colors.DeepPink),
             ("James Smith", "JS", "Can we schedule a meeting?", "2", Colors.BlueViolet),
-            ("Fabio Lostrano", "FL", "That's perfect for me!", "3", Colors.Orange),
+            ("Fabio Lostrano", "FL", "s hdkjh asdkjh gkajshd gfkjhasg dflgqpiurghf pijuhgò 3hòr-u gh.wàe òorgàw jeròlgk jwdfklnvòhewrpoighè85è9g84èoirjgòlkejrfgòlkmdn ,mvn x,.kn òidhrèoghwoerhjg àòwkergò lkjewhrògkjhw eòrkgh poòwhergòlkewrngòliwhep heorgò lkqeròl gkhòlerhgòoiheòlk ghòlker ", "3", Colors.Orange),
             ("Livia Larina", "LL", "So do I", "4", Colors.ForestGreen),
         };
         int index = 0;
