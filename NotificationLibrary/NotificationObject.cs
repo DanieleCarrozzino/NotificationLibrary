@@ -20,6 +20,7 @@ namespace NotificationLibrary
         public Color color { get; set; }
         public string tag { get; set; }
         public double Height { get; set; }
+        public BitmapImage image { get; set; }
         public BitmapImage applicationIcon { get; set; }
         public BitmapImage avatar { get; set; }
         public bool hasAvatar { get; set; }
@@ -65,7 +66,7 @@ namespace NotificationLibrary
             }
         }
 
-        public NotificationObject(BitmapImage applicationIcon, string applicationName, string title, string message, string initials, string dbid, Color color)
+        public NotificationObject(BitmapImage applicationIcon, string applicationName, string title, string message, string initials, string dbid, Color color, BitmapImage image = null)
         {
             this.hasAvatar          = false;
             this.applicationIcon    = applicationIcon;
@@ -76,10 +77,11 @@ namespace NotificationLibrary
             this.initials           = initials;
             this.color              = color;
             this.dbid               = dbid;
+            this.image              = image;
             this.tag                = this.GetHashCode().ToString();
         }
 
-        public NotificationObject(BitmapImage applicationIcon, string applicationName, BitmapImage avatar, string title, string message, string dbid)
+        public NotificationObject(BitmapImage applicationIcon, string applicationName, BitmapImage avatar, string title, string message, string dbid, BitmapImage image = null)
         {
             this.hasAvatar          = true;
             this.applicationIcon    = applicationIcon;
@@ -90,6 +92,7 @@ namespace NotificationLibrary
             this.initials           = "";
             this.color              = Colors.Red;
             this.dbid               = dbid;
+            this.image              = image;
             this.tag                = this.GetHashCode().ToString();
         }
     }
