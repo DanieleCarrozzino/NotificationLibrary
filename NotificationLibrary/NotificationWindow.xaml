@@ -180,9 +180,11 @@
 
                                 <Border 
                                     VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
                                     CornerRadius="5" 
-                                    Width="40"
-                                    Height="40">
+                                    Width="100"
+                                    Height="100"
+                                    Visibility="{Binding imageVisibility}">
 
                                     <Border.Background>
                                         <ImageBrush Stretch="UniformToFill" ImageSource="{Binding image}"></ImageBrush>

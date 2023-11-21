@@ -32,7 +32,7 @@ namespace NotificationLibrary
             n_window ??= new NotificationWindow();
             if (notificationObjects.Count == 0) n_window.Show();
 
-            if(notificationObjects.Count > 5)
+            if(notificationObjects.Count > 4)
             {
                 notificationObjects.RemoveAt(0);
             }

@@ -66,6 +66,15 @@ namespace NotificationLibrary
             }
         }
 
+        public Visibility imageVisibility
+        {
+            get
+            {
+                if (image == null) return Visibility.Collapsed;
+                else return Visibility.Visible;
+            }
+        }
+
         public NotificationObject(BitmapImage applicationIcon, string applicationName, string title, string message, string initials, string dbid, Color color, BitmapImage image = null)
         {
             this.hasAvatar          = false;
