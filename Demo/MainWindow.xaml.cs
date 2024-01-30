@@ -36,6 +36,13 @@ namespace Demo
         public MainWindow()
         {
             InitializeComponent();
+
+            for (int i = 0; i <= 100; i++)
+            {
+                createNotification();
+            }
+
+            Notification.SetCallBack(Callback);
         }
 
         public void Callback(string dbid)
@@ -46,16 +53,17 @@ namespace Demo
         private void Border_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             border_effect(true);
+            createNotification();
+        }
 
-            Notification.SetCallBack(Callback);
-
-            if(index % 3 == 0)
+        private void createNotification()
+        {
+            if (index % 3 == 0)
             {
                 index++;
                 Notification.InsertNotificationWithAvatar(getIcon(), "Application", getIcon(), "titolo", "Message", "dbid");
                 return;
             }
-
 
             var item = list[index % list.Count];
             index++;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -122,11 +123,14 @@ namespace NotificationLibrary
                 await Task.Delay(250);
 
                 // remove item from the listview
-                if (notificationManager.notificationObjects.First().tag.Equals(border.Tag))
+                foreach (var n_object in notificationManager.notificationObjects)
                 {
-                    notificationManager.notificationObjects
-                        .RemoveAt(0);
-                    Top += border.ActualHeight + 4;
+                    if (n_object.tag.Equals(border.Tag))
+                    {
+                        notificationManager.notificationObjects.Remove(n_object);
+                        Top += n_object.Height + 4;
+                        break;
+                    }
                 }
                 notificationManager.closeIfEmpty();
 

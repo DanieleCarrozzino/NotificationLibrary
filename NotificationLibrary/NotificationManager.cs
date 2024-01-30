@@ -43,25 +43,26 @@ namespace NotificationLibrary
 
                 if (notificationObjects.Count == 0) 
                 {
-                    list.Add((2, "Show window 1"));
+                    list.Add((3, "Show window 1"));
                     n_window.Show();
-                    list.Add((2, "Show window 2"));
+                    list.Add((4, "Show window 2"));
                 }
 
                 if (notificationObjects.Count > 4)
                 {
-                    list.Add((2, "Remove not 1"));
-                    notificationObjects.RemoveAt(0);
-                    list.Add((2, "Remove not 2"));
+                    list.Add((5, "Remove not 1"));
+                    notificationObjects.Remove(notificationObjects.First());
+                    //notificationObjects.RemoveAt(0);
+                    list.Add((6, "Remove not 2"));
                 }
 
                 // reset the top inside the loaded method
                 notificationObjects.Add(n_object);
-                list.Add((2, "Add not"));
+                list.Add((7, "Add not"));
             }
             catch(Exception ex)
             {
-                list.Add((2, ex.Message.ToString()));
+                list.Add((-1, ex.Message.ToString()));
             }
             return list;
         }
