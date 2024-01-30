@@ -48,6 +48,7 @@ namespace NotificationLibrary
 
         private void NotificationWindow_Closed(object? sender, EventArgs e)
         {
+            Closed -= NotificationWindow_Closed;
             notificationManager.clearWindow();
         }
 

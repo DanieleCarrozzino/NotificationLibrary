@@ -20,12 +20,14 @@ namespace NotificationLibrary
         /// <param name="description"></param>
         /// <param name="initials"></param>
         /// <param name="color"></param>
-        public static void InsertNotification(BitmapImage applicationIcon, string applicationName, string title, string message, string initials, string dbid, Color color, BitmapImage image = null)
+        public static List<(int, String)> InsertNotification(
+            BitmapImage applicationIcon, string applicationName, string title, string message, 
+            string initials, string dbid, Color color, BitmapImage image = null)
         {
             var manager     = NotificationManager.getInstance();
             var n_object    = new NotificationObject(applicationIcon, applicationName, title, message, initials, dbid, color, image);
 
-            manager.addNotificationObject(n_object);
+            return manager.addNotificationObject(n_object);
         }
 
         /// <summary>
@@ -35,7 +37,7 @@ namespace NotificationLibrary
         /// <param name="description"></param>
         /// <param name="initials"></param>
         /// <param name="color"></param>
-        public static void InsertNotificationWithAvatar(
+        public static List<(int, String)> InsertNotificationWithAvatar(
             BitmapImage applicationIcon, string applicationName, 
             BitmapImage avatar,
             string title, string message, string dbid, BitmapImage image = null)
@@ -43,7 +45,7 @@ namespace NotificationLibrary
             var manager = NotificationManager.getInstance();
             var n_object = new NotificationObject(applicationIcon, applicationName, avatar, title, message, dbid, image);
 
-            manager.addNotificationObject(n_object);
+            return manager.addNotificationObject(n_object);
         }
 
         /// <summary>

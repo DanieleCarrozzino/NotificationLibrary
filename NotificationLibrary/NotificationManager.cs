@@ -27,18 +27,43 @@ namespace NotificationLibrary
         public ObservableCollection<NotificationObject> notificationObjects = new ObservableCollection<NotificationObject>();
         public Action<string> ClickCallBack;
 
-        public void addNotificationObject(NotificationObject n_object)
+        public List<(int, String)> addNotificationObject(NotificationObject n_object)
         {
-            n_window ??= new NotificationWindow();
-            if (notificationObjects.Count == 0) n_window.Show();
-
-            if(notificationObjects.Count > 4)
+            var list = new List<(int, String)>();
+            try
             {
-                notificationObjects.RemoveAt(0);
-            }
+                if(n_window == null)
+                {
+                    list.Add((1, "Create window 1"));
+                    n_window = new NotificationWindow();
+                    list.Add((2, "Create window 2"));
+                }
+                //n_window ??= new NotificationWindow();
 
-            // reset the top inside the loaded method
-            notificationObjects.Add(n_object);            
+
+                if (notificationObjects.Count == 0) 
+                {
+                    list.Add((2, "Show window 1"));
+                    n_window.Show();
+                    list.Add((2, "Show window 2"));
+                }
+
+                if (notificationObjects.Count > 4)
+                {
+                    list.Add((2, "Remove not 1"));
+                    notificationObjects.RemoveAt(0);
+                    list.Add((2, "Remove not 2"));
+                }
+
+                // reset the top inside the loaded method
+                notificationObjects.Add(n_object);
+                list.Add((2, "Add not"));
+            }
+            catch(Exception ex)
+            {
+                list.Add((2, ex.Message.ToString()));
+            }
+            return list;
         }
 
         public void closeIfEmpty()
