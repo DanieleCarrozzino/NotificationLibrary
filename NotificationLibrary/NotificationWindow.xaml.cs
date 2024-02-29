@@ -32,6 +32,8 @@ namespace NotificationLibrary
         double screenWidth;
         double screenHeight;
 
+        private DateTime lastClickTime;
+
         public NotificationWindow()
         {
             ShowInTaskbar = false;
@@ -166,6 +168,10 @@ namespace NotificationLibrary
 
         private void ListViewItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            DateTime currentTime = DateTime.Now;
+            if ((currentTime - lastClickTime).TotalMilliseconds < 350) return;
+            lastClickTime = currentTime;
+
             // Manage the click over the notification
             var item = listView.SelectedItem;
             if (item == null) return;
