@@ -11,41 +11,42 @@ namespace NotificationLibrary
 {
     public static class Notification
     {
+        public static GlobalNotificationSettings Settings { get; set; } = new GlobalNotificationSettings();
 
         /// <summary>
         /// Create and show the notification inside the vertical
         /// list of the NotificationWindow
         /// </summary>
-        /// <param name="title"></param>
-        /// <param name="description"></param>
-        /// <param name="initials"></param>
-        /// <param name="color"></param>
-        public static List<(int, String)> InsertNotification(
-            BitmapImage applicationIcon, string applicationName, string title, string message, 
-            string initials, string dbid, Color color, BitmapImage image = null)
+        /// <param name="notification"></param>
+        public static void InsertNotification(NotificationModel notification)
         {
-            var manager     = NotificationManager.getInstance();
-            var n_object    = new NotificationObject(applicationIcon, applicationName, title, message, initials, dbid, color, image);
-
-            return manager.addNotificationObject(n_object);
+            var manager = NotificationManager.GetInstance();
+            var n_object = new NotificationObject(notification.ApplicationIcon,
+                notification.ApplicationName,
+                notification.Title,
+                notification.Message,
+                notification.Initials,
+                notification.Dbid,
+                notification.Color,
+                notification.Image);
+            manager.AddNotificationObject(n_object);
         }
 
         /// <summary>
         /// Create and show  a notification with ana avatar
         /// </summary>
-        /// <param name="title"></param>
-        /// <param name="description"></param>
-        /// <param name="initials"></param>
-        /// <param name="color"></param>
-        public static List<(int, String)> InsertNotificationWithAvatar(
-            BitmapImage applicationIcon, string applicationName, 
-            BitmapImage avatar,
-            string title, string message, string dbid, BitmapImage image = null)
+        /// <param name="notification"></param>
+        public static void InsertNotificationWithAvatar(NotificationModel notification)
         {
-            var manager = NotificationManager.getInstance();
-            var n_object = new NotificationObject(applicationIcon, applicationName, avatar, title, message, dbid, image);
-
-            return manager.addNotificationObject(n_object);
+            var manager = NotificationManager.GetInstance();
+            var n_object = new NotificationObject(notification.ApplicationIcon,
+                notification.ApplicationName,
+                notification.Avatar,
+                notification.Title,
+                notification.Message,
+                notification.Dbid,
+                notification.Image);
+            manager.AddNotificationObject(n_object);
         }
 
         /// <summary>
@@ -54,9 +55,8 @@ namespace NotificationLibrary
         /// <param name="Callback"></param>
         public static void SetCallBack(Action<string> Callback)
         {
-            var manager = NotificationManager.getInstance();
+            var manager = NotificationManager.GetInstance();
             manager.ClickCallBack = Callback;
         }
-
     }
 }

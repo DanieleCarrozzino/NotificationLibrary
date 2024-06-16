@@ -23,7 +23,6 @@ namespace Demo
     /// </summary>
     public partial class MainWindow : Window
     {
-
         List<(string, string, string, string, Color)> list = new List<(string, string, string, string, Color)>()
         {
             ("Marco Lombardo", "ML", "Hi lukeòlw ijòl wjgjwò jòlkd fjòlk jwdòlkj òlwjd pòogijw òlkj gòldjf poiwj òlkj òwdfijòiw jòlj wdòlfk jòlw jfòiw jòoij òwl dfjòowi jòlkb gjdòlwj", "1", Colors.DeepPink),
@@ -31,6 +30,7 @@ namespace Demo
             ("Fabio Lostrano", "FL", "s hdkjh asdkjh gkajshd gfkjhasg dflgqpiurghf pijuhgò 3hòr-u gh.wàe òorgàw jeròlgk jwdfklnvòhewrpoighè85è9g84èoirjgòlkejrfgòlkmdn ,mvn x,.kn òidhrèoghwoerhjg àòwkergò lkjewhrògkjhw eòrkgh poòwhergòlkewrngòliwhep heorgò lkqeròl gkhòlerhgòoiheòlk ghòlker ", "3", Colors.Orange),
             ("Livia Larina", "LL", "So do I", "4", Colors.ForestGreen),
         };
+
         int index = 0;
 
         public MainWindow()
@@ -58,16 +58,34 @@ namespace Demo
 
         private void createNotification()
         {
+            Notification.Settings.Duration = 1000;
+            Notification.Settings.PauseOnHover = true;
             if (index % 3 == 0)
             {
                 index++;
-                Notification.InsertNotificationWithAvatar(getIcon(), "Application", getIcon(), "titolo", "Message", "dbid");
+                Notification.InsertNotificationWithAvatar(new NotificationModel()
+                {
+                    ApplicationName = "Application",
+                    Avatar = getIcon(),
+                    Title = "titolo",
+                    Message = "Message",
+                    Dbid = "dbid",
+                });
                 return;
             }
 
             var item = list[index % list.Count];
             index++;
-            Notification.InsertNotification(getIcon(), "Application", item.Item1, item.Item3, item.Item2, item.Item4, item.Item5);
+            var notification = new NotificationModel()
+            {
+                ApplicationName = "Application",
+                ApplicationIcon = getIcon(),
+                Title = item.Item1,
+                Message = item.Item3,
+                Dbid = item.Item4,
+                Color = item.Item5
+            };
+            Notification.InsertNotification(notification);
         }
 
         private BitmapImage getIcon()
@@ -109,7 +127,8 @@ namespace Demo
                     Opacity = 0.2,
                 };
             }
+
             border.Effect = dropShadowEffect;
-        } 
+        }
     }
 }

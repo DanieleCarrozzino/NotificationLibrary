@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,15 +25,17 @@ namespace NotificationLibrary
     /// </summary>
     public partial class NotificationWindow : Window
     {
-        NotificationManager notificationManager = NotificationManager.getInstance();
+        readonly NotificationManager _notificationManager = NotificationManager.GetInstance();
 
-        const int MARGIN = 20;
-        const int DURATION = 6500;
+        private readonly int _margin;
+        private readonly int _duration;
+        private readonly bool _pauseOnHover;
+        private CancellationTokenSource _delayCancellationTokenSource = new CancellationTokenSource();
+        private bool _removingOfNotificationPaused = false;
+        readonly double _screenWidth;
+        readonly double _screenHeight;
 
-        double screenWidth;
-        double screenHeight;
-
-        private DateTime lastClickTime;
+        private DateTime _lastClickTime;
 
         public NotificationWindow()
         {
@@ -41,45 +44,54 @@ namespace NotificationLibrary
 
             Closed += NotificationWindow_Closed;
 
-            listView.ItemsSource = notificationManager.notificationObjects;
+            // Properties
+            _duration = Notification.Settings.Duration;
+            _margin = Notification.Settings.Margin;
+            _pauseOnHover = Notification.Settings.PauseOnHover;
+            listView.ItemsSource = _notificationManager.NotificationObjects;
 
             // Get the working area of the primary screen
             Rect workArea = SystemParameters.WorkArea;
-            screenWidth  = workArea.Width;
-            screenHeight = workArea.Height;
+            _screenWidth = workArea.Width;
+            _screenHeight = workArea.Height;
         }
 
         private void NotificationWindow_Closed(object? sender, EventArgs e)
         {
             Closed -= NotificationWindow_Closed;
-            notificationManager.clearWindow();
+            _notificationManager.ClearWindow();
         }
 
         private void border_Loaded(object sender, RoutedEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine($"border_Loaded");
+
             var width = ((Border)sender).ActualWidth;
             var height = ((Border)sender).ActualHeight;
 
             var index = 0;
-            foreach (var n_object in notificationManager.notificationObjects)
+            foreach (var nObject in _notificationManager.NotificationObjects)
             {
-                if (n_object.tag.Equals(((Border)sender).Tag))
+                if (nObject.tag.Equals(((Border)sender).Tag))
                 {
-                    notificationManager.notificationObjects[index].Height = height;
+                    _notificationManager.NotificationObjects[index].Height = height;
                 }
+
                 index++;
             }
 
-            // Position the window at the bottom right corner
-            Left = screenWidth - width - MARGIN;
-            resetTopHeight();
+            // Position the window in the bottom right corner
+            Left = _screenWidth - width - _margin;
+            ResetTopHeight();
 
-            startAnimation((Border)sender);
-            removeNotification((Border)sender);
+            StartAnimation((Border)sender);
+            RemoveNotification((Border)sender);
         }
 
-        private void startAnimation(Border border)
+        private void StartAnimation(Border border)
         {
+            System.Diagnostics.Debug.WriteLine($"startAnimation");
+
             // Opacity Animation
             DoubleAnimation opacityAnimation = new DoubleAnimation
             {
@@ -103,8 +115,10 @@ namespace NotificationLibrary
             translateTransform.BeginAnimation(TranslateTransform.XProperty, translateXAnimation);
         }
 
-        private void closeAnimation(Border border)
+        private void CloseAnimation(Border border)
         {
+            System.Diagnostics.Debug.WriteLine($"closeAnimation");
+
             // Opacity Animation
             DoubleAnimation opacityAnimation = new DoubleAnimation
             {
@@ -116,49 +130,91 @@ namespace NotificationLibrary
             border.BeginAnimation(Border.OpacityProperty, opacityAnimation);
         }
 
-        async private void removeNotification(Border border)
+
+        private void ListViewItem_MouseEnter(object sender, MouseEventArgs e)
         {
-            await Task.Delay(DURATION);
+            if (!_pauseOnHover) return;
+            if (sender is ListViewItem item && listView.ItemContainerGenerator.ItemFromContainer(item) is NotificationObject nObject)
+            {
+                System.Diagnostics.Debug.WriteLine($"Mouse hovering over: {nObject.title}");
+                _removingOfNotificationPaused = true;
+            }
+        }
+
+        private void ListViewItem_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (!_pauseOnHover) return;
+
+            if (sender is ListViewItem item && listView.ItemContainerGenerator.ItemFromContainer(item) is NotificationObject nObject)
+            {
+                System.Diagnostics.Debug.WriteLine($"Mouse left: {nObject.title}");
+                _removingOfNotificationPaused = false;
+                _delayCancellationTokenSource.Cancel();
+                _delayCancellationTokenSource = new CancellationTokenSource();
+            }
+        }
+
+        private async void RemoveNotification(Border border)
+        {
+            await Task.Delay(_duration);
+
+            try
+            {
+                while (_removingOfNotificationPaused)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Delay started.");
+                    await Task.Delay(100, _delayCancellationTokenSource.Token); // Use the token here
+                }
+            }
+            catch (TaskCanceledException)
+            {
+                System.Diagnostics.Debug.WriteLine("Delay was canceled.");
+                await Task.Delay(1000); // Give extra 1s so it doesn't close immediately
+            }
+
             await this.Dispatcher.InvokeAsync(async () =>
             {
-                closeAnimation(border);
-                await Task.Delay(250);
+                System.Diagnostics.Debug.WriteLine($"Removing item");
 
+                CloseAnimation(border);
+                await Task.Delay(250);
                 // remove item from the listview
-                foreach (var n_object in notificationManager.notificationObjects)
+                foreach (var nObject in _notificationManager.NotificationObjects)
                 {
-                    if (n_object.tag.Equals(border.Tag))
+                    if (nObject.tag.Equals(border.Tag))
                     {
-                        notificationManager.notificationObjects.Remove(n_object);
-                        Top += n_object.Height + 4;
+                        _notificationManager.NotificationObjects.Remove(nObject);
+                        Top += nObject.Height + 4;
                         break;
                     }
                 }
-                notificationManager.closeIfEmpty();
 
+                _notificationManager.CloseIfEmpty();
             });
         }
 
-        public void resetTopHeight()
+
+        public void ResetTopHeight()
         {
             double height = 0;
-            foreach (var item in notificationManager.notificationObjects)
+            foreach (var item in _notificationManager.NotificationObjects)
                 height += item.Height + 4;
-            Top = screenHeight - (height) - MARGIN;
+            Top = _screenHeight - (height) - _margin;
         }
 
         private void Image_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            foreach(var n_object in notificationManager.notificationObjects)
+            foreach (var nObject in _notificationManager.NotificationObjects)
             {
-                if (n_object.tag.Equals(((Image)sender).Tag))
+                if (nObject.tag.Equals(((Image)sender).Tag))
                 {
-                    notificationManager.notificationObjects.Remove(n_object);
-                    Top += n_object.Height + 4;
+                    _notificationManager.NotificationObjects.Remove(nObject);
+                    Top += nObject.Height + 4;
                     break;
                 }
             }
-            notificationManager.closeIfEmpty();
+
+            _notificationManager.CloseIfEmpty();
         }
 
         private void HandleDoubleClick(object sender, MouseButtonEventArgs e)
@@ -169,16 +225,16 @@ namespace NotificationLibrary
         private void ListViewItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             DateTime currentTime = DateTime.Now;
-            if ((currentTime - lastClickTime).TotalMilliseconds < 350) return;
-            lastClickTime = currentTime;
+            if ((currentTime - _lastClickTime).TotalMilliseconds < 350) return;
+            _lastClickTime = currentTime;
 
             // Manage the click over the notification
             var item = listView.SelectedItem;
             if (item == null) return;
-            notificationManager.EventClick((item as NotificationObject).dbid);
-            notificationManager.notificationObjects.Remove((item as NotificationObject));
+            _notificationManager.EventClick((item as NotificationObject).dbid);
+            _notificationManager.NotificationObjects.Remove((item as NotificationObject));
 
-            notificationManager.closeIfEmpty();
+            _notificationManager.CloseIfEmpty();
 
             Top += (item as NotificationObject).Height + 4;
             e.Handled = true;
