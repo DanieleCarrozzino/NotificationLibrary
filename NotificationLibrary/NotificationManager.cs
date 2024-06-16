@@ -15,75 +15,59 @@ namespace NotificationLibrary
         //
         //*************
 
-        private static NotificationManager instance = null;
+        private static NotificationManager _instance = null;
 
-        public static NotificationManager getInstance()
+        public static NotificationManager GetInstance()
         {
-            instance ??= new NotificationManager();
-            return instance;
+            _instance ??= new NotificationManager();
+            return _instance;
         }
 
-        private NotificationWindow n_window = null;
-        public ObservableCollection<NotificationObject> notificationObjects = new ObservableCollection<NotificationObject>();
+        private NotificationWindow? _nWindow = null;
+        public ObservableCollection<NotificationObject> NotificationObjects = new ObservableCollection<NotificationObject>();
         public Action<string> ClickCallBack;
 
-        public List<(int, String)> addNotificationObject(NotificationObject n_object)
+        public void AddNotificationObject(NotificationObject nObject)
         {
-            var list = new List<(int, String)>();
             try
             {
-                if(n_window == null)
-                {
-                    list.Add((1, "Create window 1"));
-                    n_window = new NotificationWindow();
-                    list.Add((2, "Create window 2"));
-                }
-                //n_window ??= new NotificationWindow();
+                _nWindow ??= new NotificationWindow();
 
 
-                if (notificationObjects.Count == 0) 
+                switch (NotificationObjects.Count)
                 {
-                    list.Add((3, "Show window 1"));
-                    n_window.Show();
-                    list.Add((4, "Show window 2"));
+                    case 0:
+                        _nWindow.Show();
+                        break;
+                    case > 4:
+                        NotificationObjects.Remove(NotificationObjects.First());
+                        break;
                 }
 
-                if (notificationObjects.Count > 4)
-                {
-                    list.Add((5, "Remove not 1"));
-                    notificationObjects.Remove(notificationObjects.First());
-                    //notificationObjects.RemoveAt(0);
-                    list.Add((6, "Remove not 2"));
-                }
-
-                // reset the top inside the loaded method
-                notificationObjects.Add(n_object);
-                list.Add((7, "Add not"));
+                NotificationObjects.Add(nObject);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                list.Add((-1, ex.Message.ToString()));
-            }
-            return list;
-        }
-
-        public void closeIfEmpty()
-        {
-            if (notificationObjects.Count == 0 && n_window != null)
-            {
-                n_window.Close();
+                // ignored
             }
         }
 
-        public void clearWindow()
+        public void CloseIfEmpty()
         {
-            n_window = null;
+            if (NotificationObjects.Count == 0 && _nWindow != null)
+            {
+                _nWindow.Close();
+            }
+        }
+
+        public void ClearWindow()
+        {
+            _nWindow = null;
         }
 
         public void EventClick(string dbid)
         {
             ClickCallBack?.Invoke(dbid);
         }
-
     }
 }
