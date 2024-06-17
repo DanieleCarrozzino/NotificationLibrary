@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
@@ -11,6 +11,7 @@
     <None Remove="images\close.png" />
   </ItemGroup>
 
+
   <ItemGroup>
     <Resource Include="images\chat.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -19,5 +20,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
+
 
 </Project>

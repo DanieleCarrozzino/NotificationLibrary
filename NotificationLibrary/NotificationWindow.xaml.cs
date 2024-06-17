@@ -25,7 +25,7 @@ namespace NotificationLibrary
     /// </summary>
     public partial class NotificationWindow : Window
     {
-        readonly NotificationManager _notificationManager = NotificationManager.GetInstance();
+        readonly NotificationManager _notificationManager = NotificationManager.Instance;
 
         private readonly int _margin;
         private readonly int _duration;
@@ -40,6 +40,23 @@ namespace NotificationLibrary
         public NotificationWindow()
         {
             ShowInTaskbar = false;
+            WindowStyle = WindowStyle.None;
+            AllowsTransparency = true;
+
+            var darkThemeUri = new Uri("pack://application:,,,/NotificationLibrary;component/themes/dark.xaml", UriKind.Absolute);
+            var darkThemeDict = new ResourceDictionary { Source = darkThemeUri };
+
+            var lightThemeUri = new Uri("pack://application:,,,/NotificationLibrary;component/themes/light.xaml", UriKind.Absolute);
+            var lightThemeDict = new ResourceDictionary { Source = lightThemeUri };
+            if (Notification.Settings.LightTheme)
+            {
+                Resources.MergedDictionaries.Add(lightThemeDict);
+            }
+            else
+            {
+                Resources.MergedDictionaries.Add(darkThemeDict);
+            }
+
             InitializeComponent();
 
             Closed += NotificationWindow_Closed;
@@ -48,7 +65,7 @@ namespace NotificationLibrary
             _duration = Notification.Settings.Duration;
             _margin = Notification.Settings.Margin;
             _pauseOnHover = Notification.Settings.PauseOnHover;
-            listView.ItemsSource = _notificationManager.NotificationObjects;
+            this.DataContext = _notificationManager;
 
             // Get the working area of the primary screen
             Rect workArea = SystemParameters.WorkArea;
@@ -72,7 +89,7 @@ namespace NotificationLibrary
             var index = 0;
             foreach (var nObject in _notificationManager.NotificationObjects)
             {
-                if (nObject.tag.Equals(((Border)sender).Tag))
+                if (nObject.Tag.Equals(((Border)sender).Tag))
                 {
                     _notificationManager.NotificationObjects[index].Height = height;
                 }
@@ -136,7 +153,7 @@ namespace NotificationLibrary
             if (!_pauseOnHover) return;
             if (sender is ListViewItem item && listView.ItemContainerGenerator.ItemFromContainer(item) is NotificationObject nObject)
             {
-                System.Diagnostics.Debug.WriteLine($"Mouse hovering over: {nObject.title}");
+                System.Diagnostics.Debug.WriteLine($"Mouse hovering over: {nObject.Title}");
                 _removingOfNotificationPaused = true;
             }
         }
@@ -147,7 +164,7 @@ namespace NotificationLibrary
 
             if (sender is ListViewItem item && listView.ItemContainerGenerator.ItemFromContainer(item) is NotificationObject nObject)
             {
-                System.Diagnostics.Debug.WriteLine($"Mouse left: {nObject.title}");
+                System.Diagnostics.Debug.WriteLine($"Mouse left: {nObject.Title}");
                 _removingOfNotificationPaused = false;
                 _delayCancellationTokenSource.Cancel();
                 _delayCancellationTokenSource = new CancellationTokenSource();
@@ -181,7 +198,7 @@ namespace NotificationLibrary
                 // remove item from the listview
                 foreach (var nObject in _notificationManager.NotificationObjects)
                 {
-                    if (nObject.tag.Equals(border.Tag))
+                    if (nObject.Tag.Equals(border.Tag))
                     {
                         _notificationManager.NotificationObjects.Remove(nObject);
                         Top += nObject.Height + 4;
@@ -206,7 +223,7 @@ namespace NotificationLibrary
         {
             foreach (var nObject in _notificationManager.NotificationObjects)
             {
-                if (nObject.tag.Equals(((Image)sender).Tag))
+                if (nObject.Tag.Equals(((Image)sender).Tag))
                 {
                     _notificationManager.NotificationObjects.Remove(nObject);
                     Top += nObject.Height + 4;
@@ -231,7 +248,7 @@ namespace NotificationLibrary
             // Manage the click over the notification
             var item = listView.SelectedItem;
             if (item == null) return;
-            _notificationManager.EventClick((item as NotificationObject).dbid);
+            _notificationManager.EventClick((item as NotificationObject).UniqueIdentifier);
             _notificationManager.NotificationObjects.Remove((item as NotificationObject));
 
             _notificationManager.CloseIfEmpty();

@@ -13,5 +13,6 @@ namespace NotificationLibrary
         public int Margin { get; set; } = 20;
         public int Duration { get; set; } = 2000;
         public bool PauseOnHover { get; set; } = false;
+        public bool LightTheme { get; set; } = false;
     }
 }

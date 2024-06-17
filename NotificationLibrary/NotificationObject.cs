@@ -12,28 +12,29 @@ namespace NotificationLibrary
 {
     internal class NotificationObject
     {
-        public string title { get; set; }
-        public string message { get; set; }
-        public string initials { get; set; }
-        public string dbid { get; set; }
-        public string applicationName { get; set; }
-        public Color color { get; set; }
-        public string tag { get; set; }
+        public string Title { get; set; }
+        public string Message { get; set; }
+        public string Initials { get; set; }
+        public string UniqueIdentifier { get; set; }
+        public string ApplicationName { get; set; }
+        public Color Color { get; set; }
+        public string Tag { get; set; }
         public double Height { get; set; }
-        public BitmapImage image { get; set; }
-        public BitmapImage applicationIcon { get; set; }
-        public BitmapImage avatar { get; set; }
-        public bool hasAvatar { get; set; }
+        public BitmapImage Image { get; set; }
+        public BitmapImage ApplicationIcon { get; set; }
+        public BitmapImage Avatar { get; set; }
+        public bool HasAvatar { get; set; }
+        public bool IsLightTheme { get; set; }
 
-        public LinearGradientBrush solidColor
+        public LinearGradientBrush SolidColor
         {
             get
             {
                 LinearGradientBrush gradientBrush = new LinearGradientBrush();
                 gradientBrush.StartPoint = new Point(0, 0);
                 gradientBrush.EndPoint = new Point(1, 0);
-                gradientBrush.GradientStops.Add(new GradientStop(color, 0));
-                gradientBrush.GradientStops.Add(new GradientStop(GetDarkerColor(color, 0.3), 1));
+                gradientBrush.GradientStops.Add(new GradientStop(Color, 0));
+                gradientBrush.GradientStops.Add(new GradientStop(GetDarkerColor(Color, 0.3), 1));
                 gradientBrush.Freeze();
                 return gradientBrush;
             }
@@ -50,61 +51,61 @@ namespace NotificationLibrary
             return Color.FromRgb(r, g, b);
         }
 
-        public Visibility initialsVisibility
+        public Visibility InitialsVisibility
         {
             get
             {
-                if (hasAvatar) return Visibility.Collapsed;
+                if (HasAvatar) return Visibility.Collapsed;
                 else return Visibility.Visible;
             }
         }
 
-        public Visibility avatarVisibility
+        public Visibility AvatarVisibility
         {
             get
             {
-                if (!hasAvatar) return Visibility.Collapsed;
+                if (!HasAvatar) return Visibility.Collapsed;
                 else return Visibility.Visible;
             }
         }
 
-        public Visibility imageVisibility
+        public Visibility ImageVisibility
         {
             get
             {
-                if (image == null) return Visibility.Collapsed;
+                if (Image == null) return Visibility.Collapsed;
                 else return Visibility.Visible;
             }
         }
 
-        public NotificationObject(BitmapImage applicationIcon, string applicationName, string title, string message, string initials, string dbid, Color color, BitmapImage image = null)
+        public NotificationObject(BitmapImage applicationIcon, string applicationName, string title, string message, string initials, string uniqueIdentifier, Color color, BitmapImage image = null)
         {
-            this.hasAvatar = false;
-            this.applicationIcon = applicationIcon;
-            this.applicationName = applicationName;
-            this.avatar = null;
-            this.title = title;
-            this.message = message;
-            this.initials = initials;
-            this.color = color;
-            this.dbid = dbid;
-            this.image = image;
-            this.tag = this.GetHashCode().ToString();
+            this.HasAvatar = false;
+            this.ApplicationIcon = applicationIcon;
+            this.ApplicationName = applicationName;
+            this.Avatar = null;
+            this.Title = title;
+            this.Message = message;
+            this.Initials = initials;
+            this.Color = color;
+            this.UniqueIdentifier = uniqueIdentifier;
+            this.Image = image;
+            this.Tag = this.GetHashCode().ToString();
         }
 
-        public NotificationObject(BitmapImage applicationIcon, string applicationName, BitmapImage avatar, string title, string message, string dbid, BitmapImage image = null)
+        public NotificationObject(BitmapImage applicationIcon, string applicationName, BitmapImage avatar, string title, string message, string uniqueIdentifier, BitmapImage image = null)
         {
-            this.hasAvatar = true;
-            this.applicationIcon = applicationIcon;
-            this.applicationName = applicationName;
-            this.avatar = avatar;
-            this.title = title;
-            this.message = message;
-            this.initials = "";
-            this.color = Colors.Red;
-            this.dbid = dbid;
-            this.image = image;
-            this.tag = this.GetHashCode().ToString();
+            this.HasAvatar = true;
+            this.ApplicationIcon = applicationIcon;
+            this.ApplicationName = applicationName;
+            this.Avatar = avatar;
+            this.Title = title;
+            this.Message = message;
+            this.Initials = "";
+            this.Color = Colors.Red;
+            this.UniqueIdentifier = uniqueIdentifier;
+            this.Image = image;
+            this.Tag = this.GetHashCode().ToString();
         }
     }
 }
