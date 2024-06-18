@@ -11,22 +11,17 @@ namespace NotificationLibrary
 {
     public static class Notification
     {
-        public static GlobalNotificationSettings Settings { get; set; } = new GlobalNotificationSettings();
+        public static GlobalNotificationSettings Settings { get; } = new GlobalNotificationSettings();
 
-        /// <summary>
-        /// Create and show the notification inside the vertical
-        /// list of the NotificationWindow
-        /// </summary>
-        /// <param name="notification"></param>
-        public static void InsertNotification(NotificationModel notification)
+        public static void InsertNotification(NotificationInitialsModel notification)
         {
-            var manager = NotificationManager.GetInstance();
+            var manager = NotificationManager.Instance;
             var n_object = new NotificationObject(notification.ApplicationIcon,
                 notification.ApplicationName,
                 notification.Title,
                 notification.Message,
                 notification.Initials,
-                notification.Dbid,
+                notification.UniqueIdentifier,
                 notification.Color,
                 notification.Image);
             manager.AddNotificationObject(n_object);
@@ -36,15 +31,15 @@ namespace NotificationLibrary
         /// Create and show  a notification with ana avatar
         /// </summary>
         /// <param name="notification"></param>
-        public static void InsertNotificationWithAvatar(NotificationModel notification)
+        public static void InsertNotification(NotificationAvatarModel notification)
         {
-            var manager = NotificationManager.GetInstance();
+            var manager = NotificationManager.Instance;
             var n_object = new NotificationObject(notification.ApplicationIcon,
                 notification.ApplicationName,
                 notification.Avatar,
                 notification.Title,
                 notification.Message,
-                notification.Dbid,
+                notification.UniqueIdentifier,
                 notification.Image);
             manager.AddNotificationObject(n_object);
         }
@@ -55,7 +50,7 @@ namespace NotificationLibrary
         /// <param name="Callback"></param>
         public static void SetCallBack(Action<string> Callback)
         {
-            var manager = NotificationManager.GetInstance();
+            var manager = NotificationManager.Instance;
             manager.ClickCallBack = Callback;
         }
     }

@@ -9,22 +9,11 @@ namespace NotificationLibrary
 {
     internal class NotificationManager
     {
-        //*************
-        //
-        //  INSTANCE
-        //
-        //*************
+        public static NotificationManager Instance = new NotificationManager();
 
-        private static NotificationManager _instance = null;
-
-        public static NotificationManager GetInstance()
-        {
-            _instance ??= new NotificationManager();
-            return _instance;
-        }
 
         private NotificationWindow? _nWindow = null;
-        public ObservableCollection<NotificationObject> NotificationObjects = new ObservableCollection<NotificationObject>();
+        public ObservableCollection<NotificationObject> NotificationObjects { get; set; } = new();
         public Action<string> ClickCallBack;
 
         public void AddNotificationObject(NotificationObject nObject)
@@ -65,9 +54,9 @@ namespace NotificationLibrary
             _nWindow = null;
         }
 
-        public void EventClick(string dbid)
+        public void EventClick(string uniqueIdentifier)
         {
-            ClickCallBack?.Invoke(dbid);
+            ClickCallBack?.Invoke(uniqueIdentifier);
         }
     }
 }

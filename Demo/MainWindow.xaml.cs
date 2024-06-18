@@ -63,26 +63,28 @@ namespace Demo
             if (index % 3 == 0)
             {
                 index++;
-                Notification.InsertNotificationWithAvatar(new NotificationModel()
+                Notification.InsertNotification(new NotificationAvatarModel()
                 {
                     ApplicationName = "Application",
                     Avatar = getIcon(),
                     Title = "titolo",
                     Message = "Message",
-                    Dbid = "dbid",
+                    UniqueIdentifier = "dbid",
                 });
                 return;
             }
 
+            Notification.Settings.LightTheme = true;
             var item = list[index % list.Count];
             index++;
-            var notification = new NotificationModel()
+            var notification = new NotificationInitialsModel()
             {
                 ApplicationName = "Application",
                 ApplicationIcon = getIcon(),
                 Title = item.Item1,
+                Initials = "ML",
                 Message = item.Item3,
-                Dbid = item.Item4,
+                UniqueIdentifier = item.Item4,
                 Color = item.Item5
             };
             Notification.InsertNotification(notification);
